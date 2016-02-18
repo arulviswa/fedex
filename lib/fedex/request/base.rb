@@ -125,6 +125,7 @@ module Fedex
       # Add shipper to xml request
       def add_shipper(xml)
         xml.Shipper{
+          xml.AccountNumber @shipper[:account_number] 
           xml.Contact{
             xml.PersonName @shipper[:name]
             xml.CompanyName @shipper[:company]
