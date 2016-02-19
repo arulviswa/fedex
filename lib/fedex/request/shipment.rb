@@ -24,6 +24,7 @@ module Fedex
       # e.g. response_details[:completed_shipment_detail][:completed_package_details][:tracking_ids][:tracking_number]
       def process_request
         api_response = self.class.post api_url, :body => build_xml
+        @fedex_request = FedexRequest.create(request: build_xml, response: api_response, request_type: "Ship")
         puts api_response if @debug
         response = parse_response(api_response)
         if success?(response)
