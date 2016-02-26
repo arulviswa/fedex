@@ -204,12 +204,14 @@ module Fedex
         else
           xml.PackageCount package_count
         end
-        @packages.each do |package|
+        # @packages.each do |package|
           xml.RequestedPackageLineItems{
             if @mps.has_key? :sequence_number
               xml.SequenceNumber @mps[:sequence_number]
+              package = @packages["#{@mps[:sequence_number] - 1}"]
             else
               xml.GroupPackageCount 1
+              package = @packages[0]
             end
             if package[:insured_value]
               xml.InsuredValue{
@@ -278,7 +280,7 @@ module Fedex
               }
             end
           }
-        end
+        # end
       end
 
       def add_customer_references(xml, package)
