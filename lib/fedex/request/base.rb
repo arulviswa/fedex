@@ -208,7 +208,7 @@ module Fedex
           xml.RequestedPackageLineItems{
             if @mps.has_key? :sequence_number
               xml.SequenceNumber @mps[:sequence_number]
-              package = @packages["#{@mps[:sequence_number] - 1}"]
+              package = @packages["#{@mps[:sequence_number].to_i - 1}"]
             else
               xml.GroupPackageCount 1
               package = @packages[0]
