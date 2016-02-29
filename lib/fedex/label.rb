@@ -48,10 +48,8 @@ module Fedex
     end
 
     def save(path, append_name = true)
-      p has_image?
       return unless has_image?
-      p "coming-------------------"
-      p append_name
+      
       full_path = Pathname.new(path)
       full_path = full_path.join(name) if append_name
 
