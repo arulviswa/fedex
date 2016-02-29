@@ -23,7 +23,7 @@ module Fedex
       @image = Base64.decode64(options[:parts][:image]) if has_image?
 
       if file_name = @options[:file_name]
-        save(file_name, false)
+        save(file_name, true)
       end
     end
 
