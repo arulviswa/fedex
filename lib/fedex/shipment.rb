@@ -49,6 +49,13 @@ module Fedex
       Request::Address.new(@credentials, options).process_request
     end
 
+    # @param [String] pickup_confirmation_number, A valid fedex pickup confirmation number
+    # @param [String] schedule_date, A valid fedex scheduled date 
+    # @param [String] location, A valid fedex location returned after pickup request
+    def cancel_pickup(options = {})
+      Request::CancelPickup.new(@credentials, options).process_request
+    end
+
     # @param [Hash] shipper, A hash containing the shipper information
     # @param [Hash] recipient, A hash containing the recipient information
     # @param [Array] packages, An array including a hash for each package being shipped
