@@ -4,14 +4,15 @@ module Fedex
   module Request
     class CancelPickup < Base
 
-      attr_reader :schedule_date, :pickup_confirmation_number, :location
+      attr_reader :schedule_date, :pickup_confirmation_number, :location, :carrier_code, :remarks
 
       def initialize(credentials, options={})
-        requires!(options, :schedule_date, :pickup_confirmation_number, :location)
+        requires!(options, :schedule_date, :pickup_confirmation_number, :location, :carrier_code)
 
         @schedule_date  = options[:schedule_date]
         @pickup_confirmation_number  = options[:pickup_confirmation_number]
         @location  = options[:location]
+        @carrier_code = options[:carrier_code]
         @remarks = options[:remarks]
         @credentials  = credentials
       end
@@ -37,7 +38,7 @@ module Fedex
             add_web_authentication_detail(xml)
             add_client_detail(xml)
             add_version(xml)
-            xml.CarrierCode "FDXE"
+            xml.CarrierCode @carrier_code || "FDXE"
             xml.PickupConfirmationNumber @pickup_confirmation_number
             xml.ScheduledDate @schedule_date
             xml.Location @location
@@ -53,8 +54,8 @@ module Fedex
 
       # Callback used after a failed pickup response.
       def failure_response(api_response, response)
-        error_message = if response[:create_pickup_reply]
-          [response[:create_pickup_reply][:notifications]].flatten.first[:message]
+        error_message = if response[:cancel_pickup_reply]
+          [response[:cancel_pickup_reply][:notifications]].flatten.first[:message]
         else
           "#{api_response["Fault"]["detail"]["fault"]["reason"]}\n--#{Array(api_response["Fault"]["detail"]["fault"]["details"]["ValidationFailureDetail"]["message"]).join("\n--")}"
         end rescue $1
@@ -63,13 +64,13 @@ module Fedex
 
       # Callback used after a successful pickup response.
       def success_response(api_response, response)
-        @response_details = response[:create_pickup_reply]
+        @response_details = response[:cancel_pickup_reply]
       end
 
       # Successful request
       def success?(response)
         response[:create_pickup_reply] &&
-          %w{SUCCESS WARNING NOTE}.include?(response[:create_pickup_reply][:highest_severity])
+          %w{SUCCESS WARNING NOTE}.include?(response[:cancel_pickup_reply][:highest_severity])
       end
     end
   end
