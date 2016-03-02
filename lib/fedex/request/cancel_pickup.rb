@@ -69,7 +69,7 @@ module Fedex
 
       # Successful request
       def success?(response)
-        response[:create_pickup_reply] &&
+        response[:cancel_pickup_reply] &&
           %w{SUCCESS WARNING NOTE}.include?(response[:cancel_pickup_reply][:highest_severity])
       end
     end
