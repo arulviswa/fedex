@@ -19,7 +19,7 @@ module Fedex
 
       def process_request
         api_response = self.class.post(api_url, :body => build_xml)
-        @fedex_request = FedexRequest.create(request: build_xml, response: api_response, request_type: "Cancel Pickup")
+        @fedex_request = FedexRequest.create(request: build_xml, response: api_response, request_type: "Cancel Pickup", user_id: options[:user_id], app: options[:app])
         puts api_response if @debug == true
         response = parse_response(api_response)
         if success?(response)
