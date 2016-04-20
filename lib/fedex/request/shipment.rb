@@ -14,11 +14,6 @@ module Fedex
           :image_type => 'PDF',
           :label_stock_type => 'PAPER_LETTER'
         }
-
-        # Implemented for fedex user id and app name storing starts
-        @user = options[:user_id] || nil
-        @app = options[:app] || nil
-        # Implemented for fedex user id and app name storing ends
         
         @label_specification.merge! options[:label_specification] if options[:label_specification]
         @customer_specified_detail = options[:customer_specified_detail] if options[:customer_specified_detail]

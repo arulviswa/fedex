@@ -9,11 +9,6 @@ module Fedex
       def initialize(credentials, options={})
         requires!(options, :tracking_number)
 
-        # Implemented for fedex user id and app name storing starts
-        @user = options[:user_id] || nil
-        @app = options[:app] || nil
-        # Implemented for fedex user id and app name storing ends
-
         @tracking_number  = options[:tracking_number]
         @deletion_control = options[:deletion_control] || 'DELETE_ALL_PACKAGES'
         @credentials  = credentials

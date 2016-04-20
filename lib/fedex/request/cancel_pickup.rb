@@ -9,11 +9,6 @@ module Fedex
       def initialize(credentials, options={})
         requires!(options, :schedule_date, :pickup_confirmation_number, :location, :carrier_code)
 
-        # Implemented for fedex user id and app name storing starts
-        @user = options[:user_id] || nil
-        @app = options[:app] || nil
-        # Implemented for fedex user id and app name storing ends
-
         @schedule_date  = options[:schedule_date]
         @pickup_confirmation_number  = options[:pickup_confirmation_number]
         @location  = options[:location]
