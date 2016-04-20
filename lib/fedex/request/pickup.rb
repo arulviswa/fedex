@@ -7,6 +7,11 @@ module Fedex
         requires!(options, :packages, :ready_timestamp, :close_time, :carrier_code, :country_relationship)
         @debug = ENV['DEBUG'] == 'true'
 
+        # Implemented for fedex user id and app name storing starts
+        @user = options[:user_id] || nil
+        @app = options[:app] || nil
+        # Implemented for fedex user id and app name storing ends
+
         @credentials = credentials
         @packages = options[:packages]
         @ready_timestamp = options[:ready_timestamp]
